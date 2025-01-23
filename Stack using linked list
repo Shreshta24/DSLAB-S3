@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node* link;
+}Node;
+void Push(Node* top,Node *  header)
+{
+    int num;
+    Node* newly;
+    newly=(Node*)malloc(sizeof(Node));
+    printf("enter a number");
+    scanf("%d",&num);
+    newly->data=num;
+    newly->link=top->link;
+    top=newly;
+    header->link=top;
+}
+void Pop(Node*top,Node* header)
+{
+  header->link=top->link;
+  free(top);
+}
+int main()
+{ int d,j;
+  Node* header;
+  Node* top;
+  header=(Node*)malloc(sizeof(Node));
+  header->data=0;
+  header->link=NULL;
+  char c;
+  do
+  {
+      printf("enter 1 for push,2 for pop and 3 for display");
+      scanf("%d",&j);
+      if(j==1)
+      {
+      top=header;
+      Push(top,header);
+      }
+      else if(j==3)
+      {
+      top=header->link;
+          if(top==NULL)
+         {
+             printf("STACK IS EMPTY");
+         }
+          else
+         {
+             while(top!=NULL)
+          {
+             d=top->data;
+             printf("%d\t",d);
+             top=top->link;
+          }
+         }
+      }
+      else
+      {
+          top=header->link;
+          Pop(top,header);
+      }
+      printf("\n");
+      printf("do you want to continue");
+      scanf(" %c",&c);
+  }while(c=='y');
+
+}
