@@ -1,0 +1,96 @@
+#include<stdio.h>
+int DQ[5];
+int front=-1;
+int rear=-1;
+int item;
+void RearEnque()
+{printf("enter an item");
+ scanf("%d",&item);
+ if(rear==4)
+ { printf("q is full");
+ }
+ else
+ {rear=rear+1;
+ DQ[rear]=item;
+ }
+ if(rear==0)
+ {front=0;
+ }
+}
+void  FrontDeque()
+{
+if (front==-1||front>rear)
+{printf("\nq underflow");
+}
+else
+{item=DQ[front];
+ front=front+1;
+ printf("\nitem dequed %d",item);
+}
+if(front>rear)
+{front=-1;
+ rear=-1;
+}
+}
+void RearDeque()
+{if(rear==-1)
+ {printf("q is empty");
+ }
+ else
+ {item=DQ[rear];
+  rear=rear-1;
+  printf("Dequed item= %d",item);
+ }
+ if(front==rear)
+ {front=-1;
+  rear=-1;
+ }
+}
+void  FrontEnque()
+{printf("enter an item");
+ scanf("%d",&item);
+ if(front<=0)
+ {printf("Cannot add item to front");
+ }
+ else
+ { printf("enter an item");
+   scanf("%d",&item);
+   front=front-1;
+   DQ[front]=item;
+ }
+}
+void Display()
+{int i;
+ for(i=front;i<=rear;i++)
+ {item=DQ[i];
+  printf("%d\t",item);
+ }
+}
+
+int main()
+{ int s;
+  char c;
+  do{printf("Enter the function to be performed\n1:rear enque;\n2:front deque;\n3:display;\n4:front enque;\n5:rear deque;");
+scanf("%d",&s);
+ switch(s)
+{
+ case 1:
+  RearEnque();
+  break;
+  case 2:
+  FrontDeque();
+  break;
+  case 3:
+  Display();
+  break;
+  case 4:
+  FrontEnque();
+  break;
+  case 5:
+  RearDeque();
+  break;
+}printf("\ndo you want to continue");
+scanf(" %c",&c);
+}while(c=='y');
+return 0;
+}
