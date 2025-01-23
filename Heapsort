@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+void heapify(int A[], int n, int i);
+void build_heap(int A[], int n);
+void heapsort(int A[], int n);
+
+int main()
+{
+   int i,n,A[10];
+   printf("Enter size of array\n");
+   scanf("%d",&n);
+   printf("Enter elements of the array\n");
+   for(i=1;i<=n;i++)
+   {
+       scanf("%d",&A[i]);
+   }
+   
+
+    heapsort(A, n);
+
+    printf("Sorted array is:\n");
+    for (int i = 1; i <= n; i++)
+    {  
+        printf("%d ", A[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+void heapify(int A[], int n, int i)
+{
+    int largest = i;          
+    int left = 2 * i;          
+    int right = 2 * i + 1;
+    if (left <= n && A[left] > A[largest]) {
+        largest = left;
+    }
+
+    if (right <= n && A[right] > A[largest]) {
+        largest = right;
+    }
+
+    if (largest != i) {
+        int temp = A[i];
+        A[i] = A[largest];
+        A[largest] = temp;
+
+        heapify(A, n, largest);
+    }
+}
+
+void build_heap(int A[], int n)
+{
+    for (int i = n / 2; i >= 1; i--)
+    {
+        heapify(A, n, i);
+    }
+}
+
+void heapsort(int A[], int n)
+{
+    build_heap(A, n);
+    for (int i = n; i >= 2; i--)
+    {
+       
+        int temp = A[1];
+        A[1] = A[i];
+        A[i] = temp;
+
+        n--;
+
+        heapify(A, n, 1);
+    }
+} 
