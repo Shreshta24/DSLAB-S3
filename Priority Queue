@@ -1,0 +1,73 @@
+#include<stdio.h>
+int front[5];
+int rear[5];
+int PQ[5][5];
+int item;
+int priority;
+void Enque()
+{printf("enter your priority");
+ scanf("%d",&priority);
+ if(rear[priority]==4)
+ {printf("This proroity q is full");
+ }
+ else
+{rear[priority]=rear[priority]+1;
+ printf("enter an item");
+ scanf("%d",&item);
+ PQ[priority][rear[priority]]=item;
+}
+if (front[priority]==-1)
+{front[priority]=0;
+}
+}
+void Deque()
+{priority=0;
+ while(priority<5)
+ {if(front[priority]==-1)
+   { priority=priority+1;
+   }
+  if(front[priority]>-1)
+ {item=PQ[priority][front[priority]];
+  printf("Dequed item=%d",item);
+  front[priority]=front[priority]+1;
+ }
+ if (front[priority]>rear[priority])
+ {front[priority]=-1;
+  rear[priority]=-1;
+ }
+ break;
+}
+}
+void Display()
+{int i;
+ printf("enter the priority you want to display");
+ scanf(" %d",&priority);
+ for(i=front[priority];i<=rear[priority];i++)
+ {printf("%d\t",PQ[priority][i]);
+ }printf("\n");
+}
+int main()
+{int c;
+ char s;
+ int i;
+ for(i=0;i<5;i++)
+{front[i]=-1;
+ rear[i]=-1;
+}
+ do{printf("which operation  you want to perform:1 for enque;2 for deque;3 for  display");
+    scanf("%d",&c);
+    if(c==1)
+    {
+    Enque();
+    }
+    else if(c==2)
+    {Deque();
+    }
+    else
+    {Display();
+    }
+    printf("do you want to continue operation");
+    scanf(" %c",&s);
+    }while(s=='y');
+    return 0;
+   }
