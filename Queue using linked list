@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node* link;
+}Node;
+Node* front;
+Node* header;
+Node* rear;
+void Enque()
+{
+    int item;
+    Node* newly;
+    newly=(Node*)malloc(sizeof(Node));
+    printf("enter item");
+    scanf("%d",&item);
+    newly->data=item;
+    newly->link=NULL;
+    if(header->link==NULL)
+    {
+        front=newly;
+        header->link=newly;
+        rear=newly;
+    }
+    else
+    {
+        rear->link=newly;
+        rear=newly;
+    }
+}
+void Deque()
+{
+    Node* temp;
+    int item;
+    if(front==NULL)
+    {
+        printf("queue is empty");
+    }
+    else
+    {
+        item=front->data;
+        temp=front;
+        printf("Dequed item %d",item);
+        header->link=temp->link;
+        front=temp->link;
+        free(temp);
+    }
+}
+int main()
+{
+  int d,j;
+  header=(Node*)malloc(sizeof(Node));
+  header->data=0;
+  header->link=NULL;
+  Node* temp;
+  char c;
+  do
+  {
+      printf("enter 1 for enque,2 for deque and 3 for display");
+      scanf("%d",&j);
+      if(j==1)
+      {
+      Enque();
+      }
+      else if(j==3)
+      {
+      temp=front;
+          if(temp==NULL)
+         {
+             printf("QUEUE IS EMPTY");
+         }
+          else
+         {
+             while(temp!=NULL)
+          {
+             d=temp->data;
+             printf("%d\t",d);
+             temp=temp->link;
+          }
+         }
+      }
+      else
+      {
+          Deque();
+      }
+      printf("\n");
+      printf("do you want to continue");
+      scanf(" %c",&c);
+  }while(c=='y');
+ return 0;
+}
