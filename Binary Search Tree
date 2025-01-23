@@ -1,0 +1,235 @@
+#include <stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node* llink;
+    struct node* rlink;
+}Node;
+Node* root;
+int item;
+void BST()
+{
+    Node* ptr;
+    Node* ptr1;
+    Node* temp;
+    ptr=root;
+    while(ptr!=NULL)
+    {
+        if(item<ptr->data)
+        {
+            ptr1=ptr;
+            ptr=ptr->llink;
+        }
+        else if(item>ptr->data)
+        {
+            ptr1=ptr;
+            ptr=ptr->rlink;
+        }
+        else if(ptr->data==item)
+        {
+            printf("item already present");
+            break;
+        }
+    }
+        if(ptr==NULL)
+        {
+            temp=(Node*)malloc(sizeof(Node));
+            temp->data=item;
+            temp->llink=NULL;
+            temp->rlink=NULL;
+            if(ptr1->data>item)
+            {
+                ptr1->llink=temp;
+            }
+            else if(ptr1->data<item)
+            {
+                ptr1->rlink=temp;
+            }
+        }
+}
+void Inorder(Node* ptr)
+{
+    if(ptr!=NULL)
+    {
+        Inorder(ptr->llink);
+        printf("%d",ptr->data);
+        Inorder(ptr->rlink);
+    }
+}
+void PreOrder(Node* ptr)
+{
+   if(ptr!=NULL)
+    {
+        printf("%d",ptr->data);
+        PreOrder(ptr->llink);
+        PreOrder(ptr->rlink);
+    }
+}
+void PostOrder(Node* ptr)
+{
+    if(ptr!=NULL)
+    {
+        PostOrder(ptr->llink);
+        PostOrder(ptr->rlink);
+        printf("%d",ptr->data);
+    }
+}
+int countLeafNodes(Node* ptr)
+{
+   if(ptr==NULL)
+   {
+     return 0;
+   }
+   if(ptr->llink==NULL&&ptr->rlink==NULL)
+   {
+     return 1;
+   }
+   return countLeafNodes(ptr->llink)+countLeafNodes(ptr->rlink);
+}
+void Deletion(int item)
+{
+    Node* ptr;
+    Node* ptr1;
+    int item1;
+    Node* parent;
+    Node* tamp;
+    ptr=root;
+    int flag=0;
+    int casey;
+    while(ptr!=NULL&&flag==0)
+    {
+        if(item<ptr->data)
+        {
+            parent=ptr;
+            ptr=ptr->llink;
+        }
+        else if(item>ptr->data)
+        {
+            parent=ptr;
+            ptr=ptr->rlink;
+        }
+        else if(ptr->data==item)
+        {
+            flag=1;
+            break;
+        }
+    }
+    if(ptr->rlink==NULL&&ptr->llink==NULL)
+    {
+        casey=1;
+    }
+    else if(ptr->llink!=NULL&&ptr->rlink!=NULL)
+    {
+        casey=3;
+    }
+    else
+    {
+        casey=2;
+    }
+    if(casey==1)
+    {
+        tamp=ptr;  
+        if(parent->llink==ptr)
+        {
+            parent->llink=NULL;
+        }
+        else  if(ptr->rlink==ptr)
+        {
+            parent->rlink=NULL;
+        }
+        free(tamp);
+    }
+    if(casey==2)
+    {
+        if(parent->llink==ptr)
+        {
+            if(ptr->llink=NULL)
+            {
+                parent->llink=ptr->rlink;
+            }
+            else
+            {
+                parent->llink=ptr->llink;
+            }
+        }
+        else if(parent->rlink==ptr)
+        {
+            if(ptr->llink=NULL)
+            {
+                parent->rlink=ptr->rlink;
+            }
+            else
+            {
+                parent->rlink=ptr->llink;
+            }
+        }
+    }
+    if(casey==3)
+    {
+        ptr1=ptr->rlink;
+        if (ptr1!=NULL)
+        {
+        while (ptr1->llink!=NULL)
+            {
+             ptr1=ptr1->llink;
+            }
+        }
+        item1=ptr1->data;
+        Deletion(item1);
+        ptr->data=item1;
+    }
+}
+int main()
+{
+    int l;
+    root=(Node*)malloc(sizeof(Node));
+    root->llink=NULL;
+    root->rlink=NULL;
+    printf("enter the root value");
+    scanf("%d",&item);
+    root->data=item;
+    char ch;
+    int d;
+    do
+    {   printf("which operation do you want to perform 1 for insertion,2 for inorder,3 for preorder,4 for postorder,5 for deletion,6 for countleaf nodes,7 for sorting the numbers");
+        scanf("%d",&d);
+        if(d==1)
+        {
+            printf("enter the next item");
+            scanf("%d",&item);
+            BST();
+        }
+        else if(d==2)
+        {
+            Inorder(root);
+        }
+        else if(d==3)
+        {
+            PreOrder(root);       
+        }
+        else if(d==4)
+        {
+            PostOrder(root);       
+        }
+        else if(d==5)
+        {
+            printf("enter item to be deleted");
+            scanf("%d",&item);
+            Deletion(item);
+        }
+        else if(d==6)
+        {
+           l=countLeafNodes(root);
+           printf("No of leafNodes is %d",l);
+        }
+        else if(d==7)
+        {
+           printf("Sorted array");
+           Inorder(root);
+        }
+        printf("do you want to continue?");
+        scanf(" %c",&ch);
+    }while(ch=='y');
+    return 0;
+}
