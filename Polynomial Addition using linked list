@@ -1,0 +1,161 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+ int coeff;
+ int exp1;
+ int exp2;
+ struct node* link;
+}Node;
+Node* header1;
+Node* header2;
+Node* header3;
+int main()
+{
+    int i,n,m;
+    Node* temp;
+    Node* ptr;
+    Node* ptr2;
+    printf("enter the no of terms of polynomial1");
+    scanf("%d",&n);
+    printf("enter the no of terms of polynomial2");
+    scanf("%d",&m);
+    header1=(Node*)malloc(sizeof(Node));
+    header2=(Node*)malloc(sizeof(Node));
+    header3=(Node*)malloc(sizeof(Node));
+    header1->coeff=0;
+    header1->exp1=-1;
+    header1->exp2=-1;
+    header1->link=NULL;
+    header2->coeff=0;
+    header2->exp1=-1;
+    header2->exp2=-1;
+    header2->link=NULL;
+    header3->coeff=0;
+    header3->exp1=-1;
+    header3->exp2=-1;
+    header3->link=NULL;
+    ptr=header1;
+    for(i=0;i<n;i++)
+    {
+        int c,e;
+        temp=(Node*)malloc(sizeof(Node));
+        printf("enter coefficient");
+        scanf("%d",&c);
+        printf("enter exponent of x");
+        scanf("%d",&e);
+        temp->coeff=c;
+        temp->exp1=e;
+        printf("enter exponent of y");
+        scanf("%d",&e);
+        temp->exp2=e;
+        temp->link=NULL;
+        ptr->link=temp;
+        ptr=ptr->link;
+    }
+    ptr=header2;
+    for(i=0;i<n;i++)
+    {
+        int c,e;
+        temp=(Node*)malloc(sizeof(Node));
+        printf("enter coefficient");
+        scanf("%d",&c);
+        printf("enter exponent of x");
+        scanf("%d",&e);
+        temp->coeff=c;
+        temp->exp1=e;
+        printf("enter exponent of y");
+        scanf("%d",&e);
+        temp->exp2=e;
+        temp->link=NULL;
+        ptr->link=temp;
+        ptr=ptr->link;
+    }
+     ptr=header1->link;
+    ptr2=header2->link;
+    Node* t;
+    t=header3;
+    while(ptr!=NULL&&ptr2!=NULL)
+    {
+         if(ptr->exp1==ptr2->exp1&&ptr->exp2==ptr2->exp2)
+            {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr->coeff+ptr2->coeff;
+                temp->exp1=ptr->exp1;
+                temp->exp2=ptr->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr=ptr->link;
+                ptr2=ptr2->link;
+            }
+        else if(ptr->exp1==ptr2->exp1&&ptr->exp2>ptr2->exp2)
+        {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr->coeff;
+                temp->exp1=ptr->exp1;
+                temp->exp2=ptr->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr=ptr->link;
+        }
+        else if(ptr->exp1>ptr2->exp1)
+        {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr->coeff;
+                temp->exp1=ptr->exp1;
+                temp->exp2=ptr->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr=ptr->link;
+        }
+
+        else
+        {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr2->coeff;
+                temp->exp1=ptr2->exp1;
+                temp->exp2=ptr2->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr2=ptr2->link;
+        }
+    }
+    while(ptr!=NULL)
+    {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr->coeff;
+                temp->exp1=ptr->exp1;
+                temp->exp2=ptr->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr=ptr->link;
+    }
+    while(ptr2!=NULL)
+    {
+                temp=(Node*)malloc(sizeof(Node));
+                temp->coeff=ptr2->coeff;
+                temp->exp1=ptr2->exp1;
+                temp->exp2=ptr2->exp2;
+                temp->link=NULL;
+                t->link=temp;
+                t=t->link;
+                ptr2=ptr2->link;
+    }
+    t=header3->link;
+    while(t!=NULL)
+    {
+        int c,e;
+        c=t->coeff;
+        e=t->exp1;
+        printf("coefficient %d ",c);
+        printf("exponent of x %d ",e);
+        e=t->exp2;
+        printf("exponent of y %d\n",e);
+        t=t->link;
+    }
+}
