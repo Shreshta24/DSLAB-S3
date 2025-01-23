@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef struct node
+{
+    struct node* llink;
+    struct node* rlink;
+    char ch;
+}Node;
+int main()
+{
+int i,flag=0;
+int length;
+Node* header;
+Node* ptr;
+Node* temp;
+Node* prev;
+Node* newly;
+char data;
+char str[20];
+header=(Node*)malloc(sizeof(Node));
+header->ch='\0';
+header->llink=NULL;
+header->rlink=NULL;
+ptr=header;
+printf("enter a string");
+scanf("%s",str);
+length=strlen(str);
+for(i=0;i<length;i++)
+{
+    temp=(Node*)malloc(sizeof(Node));
+    temp->ch=str[i];
+    temp->llink=ptr;
+    temp->rlink=NULL;
+    ptr->rlink=temp;
+    ptr=ptr->rlink;
+}
+ptr=header->rlink;
+prev=header;
+while(ptr!=NULL)
+{
+    data=ptr->ch;
+    printf("%c",data);
+    prev=ptr;
+    ptr=ptr->rlink;
+}
+i=0;
+while(prev!=NULL)
+{
+ if(prev->ch==str[i])
+ {
+     flag=1;
+     i=i+1;
+ }
+ else
+ {
+     flag=0;
+     break;
+ }
+ prev=prev->llink;
+}
+if(flag==1)
+{
+    printf("palindrome");
+}
+else
+{
+    printf("not palindrome");
+}
+return 0;
+}
