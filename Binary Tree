@@ -1,0 +1,187 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node* llink;
+    struct node* rlink;
+}Node;
+Node* root;
+void BuildTree(Node* ptr,int item)
+{
+    char ch;
+    int num;
+    Node* temp;
+    if(ptr!=NULL)
+    {
+        ptr->data=item;
+        printf("does the node %d have left child",item);
+        scanf(" %c",&ch);
+        if(ch=='y')
+        {
+            temp=(Node*)malloc(sizeof(Node));
+            ptr->llink=temp;
+            printf("enter the value of your left node");
+            scanf("%d",&num);
+            BuildTree(temp,num);
+        }
+        else
+        {
+            ptr->llink=NULL;
+        }
+        printf("does the node %d have right child",item);
+        scanf(" %c",&ch);
+        if(ch=='y')
+        {
+            temp=(Node*)malloc(sizeof(Node));
+            ptr->rlink=temp;
+            printf("enter the value of your right node");
+            scanf("%d",&num);
+            BuildTree(temp,num);
+        }
+        else
+        {
+            ptr->rlink=NULL;
+        }
+    }
+}
+void Inorder(Node* ptr)
+{
+    if(ptr!=NULL)
+    {
+        Inorder(ptr->llink);
+        printf("%d",ptr->data);
+        Inorder(ptr->rlink);
+    }
+}
+void PreOrder(Node* ptr)
+{
+    if(ptr!=NULL)
+    {
+        printf("%d",ptr->data);
+        PreOrder(ptr->llink);
+        PreOrder(ptr->rlink);
+    }
+}
+void PostOrder(Node* ptr)
+{
+   if(ptr!=NULL)
+    {
+        PostOrder(ptr->llink);
+        PostOrder(ptr->rlink);
+        printf("%d",ptr->data);
+    }
+}
+void Deletion(int item)
+{   Node* ptr;
+    Node* ptr1;
+    Node* parent;
+    Node* tamp;
+    int item1;
+    ptr=root;
+    int flag=0;
+    int casey;
+    while(ptr!=NULL&&flag==0)
+    {
+        if(item<ptr->data)
+        {
+            parent=ptr;
+            ptr=ptr->llink;
+        }
+        else if(item>ptr->data)
+        {
+            parent=ptr;
+            ptr=ptr->rlink;
+        }
+        else if(ptr->data==item)
+        {
+            flag=1;
+            break;
+        }
+    }
+    if(ptr->rlink==NULL&&ptr->llink==NULL)
+    {
+        casey=1;
+    }
+    else if(ptr->llink!=NULL&&ptr->rlink!=NULL)
+    {
+        casey=3;
+    }
+    else
+    {
+        casey=2;
+    }
+    if(casey==1)
+    {
+        tamp=ptr;  
+        if(parent->llink==ptr)
+        {
+            parent->llink=NULL;
+        }
+        else  if(parent->rlink==ptr)
+        {
+            parent->rlink=NULL;
+        }
+        free(tamp);
+    }
+    if(casey==2)
+    {
+        if(parent->llink==ptr)
+        {
+            if(ptr->llink=NULL)
+            {
+                parent->llink=ptr->rlink;
+            }
+            else
+            {
+                parent->llink=ptr->llink;
+            }
+        }
+        else if(parent->rlink==ptr)
+        {
+            if(ptr->llink=NULL)
+            {
+                parent->rlink=ptr->rlink;
+            }
+            else
+            {
+                parent->rlink=ptr->llink;
+            }
+        }
+    }
+    if(casey==3)
+    {
+        ptr1=ptr->rlink;
+        if (ptr1!=NULL)
+        {
+        while (ptr1->llink!=NULL)
+            {
+             ptr1=ptr1->llink;
+            }
+        }
+        item1=ptr1->data;
+        Deletion(item1);
+        ptr->data=item1;
+    }
+}
+int main()
+{
+    int item;
+    root=(Node*)malloc(sizeof(Node));
+    printf("enter the value of root node");
+    scanf("%d",&item);
+    BuildTree(root,item);
+    printf("inorder traversal");
+    Inorder(root);
+    printf("\n");
+    printf("preorder traversal");
+    PreOrder(root);
+    printf("\n");
+    printf("postorder traversal");
+    PostOrder(root);
+    printf("\n");
+    printf("enter item to be deleted");
+    scanf("%d",&item);
+    Deletion(item);
+    Inorder(root);
+}
